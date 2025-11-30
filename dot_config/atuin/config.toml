@@ -1,0 +1,10 @@
+
+inline_height = 0
+history_filter = [
+  "^secret-cmd",
+  "^innocuous-cmd .*--secret=.+",
+  ".*--password.*"
+]
+
+# [theme]
+# name = "catppuccin-mocha-green"
