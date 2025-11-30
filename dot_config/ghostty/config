@@ -1,0 +1,20 @@
+theme = Catppuccin Mocha
+
+command = "/opt/homebrew/bin/nu"
+
+font-size = 14
+
+mouse-hide-while-typing = true
+
+macos-titlebar-style = hidden
+macos-option-as-alt = true
+
+# Thx French keyboard
+keybind = alt+n=text:~
+keybind = alt+shift+l=text:|
+keybind = alt+shift+:=text:\\
+
+keybind = alt+shift+(=text:[
+keybind = alt+shift+)=text:]
+keybind = alt+(=text:{
+keybind = alt+)=text:}
