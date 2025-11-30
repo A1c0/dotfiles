@@ -1,22 +1,20 @@
 [user]
 	name = Alexandre CONTASSOT
-	email = alexandrecontassot@hotmail.fr
+	email = {{ .email | quote }}
 
 [core]
-    pager = delta
+	pager = delta
 
 [interactive]
-    diffFilter = delta --color-only
+	diffFilter = delta --color-only
 
 [delta]
-	side-by-side = false
-	features = catppuccin-macchiato
-    navigate = true    # use n and N to move between diff sections
-    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+	features = catppuccin-mocha
+	side-by-side = true
+	navigate = true
 
 [merge]
-    conflictstyle = diff3
-
+	conflictStyle = zdiff3
 [diff]
     colorMoved = default
 [init]
@@ -30,6 +28,9 @@ lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(
 lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
 tree = lg1
 [credential "https://github.com"]
+	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
+	helper =
 	helper = !/opt/homebrew/bin/gh auth git-credential
+
