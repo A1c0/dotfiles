@@ -1,0 +1,56 @@
+# App shortcuts 
+hyper - a : open -a 'Alacritty'
+hyper - m : open -a 'Spotify'
+hyper - l : open -a 'Logseq'
+hyper - b : open -a 'Arc'
+hyper - w : open -a 'Webstorm'
+hyper - s : open -a 'Slack'
+
+# Keyboard brightness
+cmd - brightness_up : nu $HOME/.config/skhd/mac_brightness_plus.nu
+cmd - brightness_down : nu $HOME/.config/skhd/mac_brightness_minus.nu
+
+# Opacity
+cmd - sound_up : nu $HOME/.config/skhd/opacity_plus.nu
+cmd - sound_down : nu $HOME/.config/skhd/opacity_minus.nu
+
+ctrl + alt - return : yabai -m window --toggle zoom-fullscreen
+
+# Focus Change
+ctrl + alt - left : yabai -m window --focus west
+ctrl + alt - right : yabai -m window --focus east
+ctrl + alt - up : yabai -m window --focus north
+ctrl + alt - down : yabai -m window --focus south
+
+ctrl + alt - 0x12 : yabai -m space --focus 1
+ctrl + alt - 0x13 : yabai -m space --focus 2
+ctrl + alt - 0x14 : yabai -m space --focus 3
+ctrl + alt - 0x15 : yabai -m space --focus 4
+ctrl + alt - 0x16 : yabai -m space --focus 5
+ctrl + alt - 0x17 : yabai -m space --focus 6
+ctrl + alt - 0x18 : yabai -m space --focus 7
+
+meh - left : yabai -m window --swap west
+meh - right : yabai -m window --swap east
+meh - up : yabai -m window --swap north
+meh - down : yabai -m window --swap south
+
+# Rotation
+ctrl + alt - r : yabai -m space --rotate 270
+meh - r : yabai -m space --rotate 90
+
+
+# Redimensionner la fenêtre active
+ctrl + alt - h : yabai -m window --resize left:-20:0
+ctrl + alt - l : yabai -m window --resize right:20:0
+ctrl + alt - k : yabai -m window --resize top:0:-20
+ctrl + alt - j : yabai -m window --resize bottom:0:20
+
+meh - h : yabai -m window --resize left:20:0
+meh - l : yabai -m window --resize right:-20:0
+meh - k : yabai -m window --resize top:0:20
+meh - j : yabai -m window --resize bottom:0:-20
+
+
+# Opacity
+hyper - t : yabai -m window --opacity 1.00
