@@ -10,7 +10,7 @@ export def notifications_count [] {
         let notification = gh api $item.url | from json
 
         if ($notification.state == "closed") {
-          if $notification.merged {
+          if ($notification | get merged --optional | default false) {
             return 'merged'
           } else {
             return 'closed'
