@@ -52,15 +52,15 @@ export def main [] {
         }
         datetime: {|| (date now) - $in |
             if $in < 1hr {
-                $color_palette.green
+                $color_palette.red
             } else if $in < 1day {
-                $color_palette.yellow
+                $color_palette.maroon
             } else if $in < 3day {
                 $color_palette.peach
             } else if $in < 1wk {
-                $color_palette.maroon
+                $color_palette.yellow
             } else if $in > 1wk {
-                $color_palette.red
+                $color_palette.green
             }
         }
         range: $color_palette.text
@@ -128,7 +128,7 @@ export def "update terminal" [] {
     let osc_screen_foreground_color = '10;'
     let osc_screen_background_color = '11;'
     let osc_cursor_color = '12;'
-        
+
     $"
     (ansi -o $osc_screen_foreground_color)($theme.foreground)(char bel)
     (ansi -o $osc_screen_background_color)($theme.background)(char bel)
