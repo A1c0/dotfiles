@@ -1,0 +1,66 @@
+theme = "catppuccin_mocha"
+
+[editor]
+shell = ["nu", "--stdin", "-c"]
+completion-replace = true
+trim-trailing-whitespace = true
+end-of-line-diagnostics = "hint"
+color-modes = true
+# rainbow-brackets = true
+
+[editor.soft-wrap]
+enable = true
+
+[editor.file-picker]
+hidden = true
+
+[editor.auto-save]
+focus-lost = true
+after-delay.enable = true
+after-delay.timeout = 300000
+
+
+[editor.inline-diagnostics]
+# Minimum severity to show a diagnostic on the primary cursor's line.
+# Note that `cursor-line` diagnostics are hidden in insert mode.
+cursor-line = "error"
+# Minimum severity to show a diagnostic on other lines:
+# other-lines = "error"
+
+[keys.normal]
+Cmd-s = ":write"
+Cmd-c = ":sh echo '%{buffer_name}' | pbcopy"
+S-C-up = ["extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before"]
+S-C-down = ["extend_to_line_bounds", "delete_selection", "paste_after"]
+C-y = ":sh zellij run -f -x 10% -y 10% --width 80% --height 80% -- bash ~/.config/helix/yazi-picker.sh"
+'S-A-.' = "repeat_last_motion"
+'{' = "rotate_selection_contents_forward"
+'}' = "rotate_selection_contents_backward"
+
+[keys.normal."space"] # Opencode
+c = ":! zellij run -f -n Opencode -c -- opencode"
+
+[keys.normal."space"."m"]
+l = ":pipe str downcase"
+s = ":pipe str snake-case"
+S = ":pipe str screaming-snake-case"
+c = ":pipe str camel-case"
+k = ":pipe str kebab-case"
+p = ":pipe str pascal-case"
+t = ":pipe str title-case"
+u = ":pipe str upcase"
+
+[keys.normal."space"."o"] # current buffer
+n = "@:o <C-r>%<C-w>"
+x = "@:sh rm <C-r>%"
+d = "file_picker_in_current_buffer_directory"
+
+[keys.normal."space"."v"] # Versinning (git)
+b = ":sh git blame --date=short -L %{cursor_line},+1 '%{buffer_name}' | parse -r '^(?<sha>[^ ]+) \\((?<author>.*?)\\s(?<date>\\d{4}-\\d{2}-\\d{2})' | first | $'($in.author) - ($in.date) - ($in.sha)'"
+y = ":sh git blame --date=short -L %{cursor_line},+1 '%{buffer_name}' | parse -r '^(?<sha>[^ ]+) \\((?<author>.*?)\\s(?<date>\\d{4}-\\d{2}-\\d{2})' | first | get sha | pbcopy"
+f = ":sh zellij run -f -n 'Git Blame' -c -- git blame '%{buffer_name}' | delta | less -RS"
+
+[keys.select]
+'{' = "rotate_selection_contents_forward"
+'}' = "rotate_selection_contents_backward"
+'S-A-.' = "repeat_last_motion"
