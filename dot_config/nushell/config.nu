@@ -165,4 +165,3 @@ let external_completer = {|spans|
 
 $env.config.completions = { external: { enable: true completer: $external_completer } }
 
-source localconfig.nu
