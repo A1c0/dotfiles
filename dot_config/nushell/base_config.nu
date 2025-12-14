@@ -165,3 +165,4 @@ let external_completer = {|spans|
 
 $env.config.completions = { external: { enable: true completer: $external_completer } }
 
+# END_OF_CHEZMOI_MANAGED
