@@ -1,9 +1,173 @@
-#!/usr/bin/env -S nu --stdin
+# chezmoi:modify-template
+# config.nu
+#
+# Installed by:
+# version = "0.102.0"
+#
+# This file is used to override default Nushell settings, define
+# (or import) custom commands, or run any other startup tasks.
+# See https://www.nushell.sh/book/configuration.html
+#
+# This file is loaded after env.nu and before login.nu
+#
+# You can open this file in your default editor using:
+# config nu
+#
+# See `help config nu` for more options
+#
+# You can remove these comments if you want or leave
+# them for future reference.
 
-def main [] {
-  let current: string = $in | collect
-  let template = (open --raw ('~/.local/share/chezmoi' | path expand | path join dot_config nushell base_config.nu))
-  let extra: string = $current | parse -r '(?<=# END_OF_CHEZMOI_MANAGED\n)(?<content>.*(\n.*)*)' | get 0.content --optional
-  # print --stderr extra $extra
-  print $"($template)($extra | str replace -r "\n$" '')"
+const shell_dependencies = [
+    "zoxide",
+    "fish",
+    "atuin",
+    "mise",
+    "bat",
+    "vivid",
+    "starship",
+    "broot",
+]
+
+use check-install.nu;
+check-install $shell_dependencies
+
+$env.config.show_banner = false
+
+# Note: The conversions happen *after* config.nu is loaded
+let bool_conversion = { from_string: { |s| $s | into bool } to_string: { |v| $v | into string } }
+$env.ENV_CONVERSIONS = $env.ENV_CONVERSIONS | insert __zoxide_hooked $bool_conversion
+
+source ~/.cache/zoxide/.zoxide.nu;
+source ~/.cache/atuin/init.nu;
+use ~/.cache/mise/activate.nu;
+
+alias meteo = curl v2.wttr.in
+
+alias clr = clear
+alias la = ls -la
+alias gm = pnpm dlx gitmoji-cli -c
+alias lg = lazygit
+alias ld = lazydocker
+
+use ./nu_scripts/custom-completions/zellij/zellij-completions.nu *
+use ./nu_scripts/custom-completions/glow/glow-completions.nu *
+use  ~/.cache/pueue/completions.nu *
+
+# Theme
+source ./nu_scripts/themes/nu-themes/catppuccin-mocha.nu
+print ""
+$env.BAT_THEME = "Catppuccin Mocha"
+$env.MANPAGER = "sh -c 'col -bx | bat -l man -p'"
+$env.LS_COLORS = (vivid generate catppuccin-mocha | str trim)
+$env.FZF_DEFAULT_OPTS = " --color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 --color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 --color=marker:#b7bdf8,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796 --color=selected-bg:#494d64 --multi";
+
+source .my-nu-scripts/_all.nu
+
+# Nu Shells feature
+use std/dirs shells-aliases *
+
+# Prompt
+use ~/.cache/starship/init.nu
+
+# Spawn new Node.js projet
+def new-node-projet [] {
+    {name: (pwd | path basename), version: "0.0.0" licence: "MIT"} | save package.json
 }
+
+def open-dot-env [file:string] {open $file | lines --skip-empty | where {$in =~ '^\s*[^#]'} | parse -r '(?<key>[^=#]+)=\"?(?<value>.*?)\"?$' | transpose -rd}
+
+alias za = zellij attach;
+
+def update-file [file: path, closure: closure] {open $file | do $closure $in | save -f $file};
+
+def unlines [] {$in | str join (char newline)};
+
+module alacritty-config {
+    export def "window opacity" [ratio: float] {update-file ~/.config/alacritty/alacritty.toml { update window.opacity $ratio }}
+    export def "window blur" [blur: bool] {update-file ~/.config/alacritty/alacritty.toml { update window.blur $blur }}
+    export def "font size" [size: int] {update-file ~/.config/alacritty/alacritty.toml { update font.size $size }}
+}
+use alacritty-config;
+
+# List of installed brew formulae and casks as a nu table
+def "brew state" [] {
+    let brew_formula = brew list --installed-on-request -1 | lines;
+    brew info --json=v2 --installed
+    | from json
+    | update formulae {
+        where name in $brew_formula
+        | select name full_name tap versions
+        | rename --block {str camel-case}}
+    | update casks {
+        select token full_token tap name version
+        | rename --block {str camel-case}}
+}
+
+def "dock hide delay" [second: int] {
+    defaults write com.apple.dock autohide-delay -float $second
+    killall Dock
+}
+
+def restart_superkey [] {
+  ps | where name like '(?i)superkey' | first | kill $in.pid;
+  ^open /Applications/Superkey.app
+}
+
+use '~/.config/broot/launcher/nushell/br' *
+alias br-zellij = with-env ({ EDITOR: ("~/.config/extra/open-on-right" | path expand) }) { br }
+
+let fish_completer = {|spans|
+    fish --command $"complete '--do-complete=($spans | str replace --all "'" "\\'" | str join ' ')'"
+    | from tsv --flexible --noheaders --no-infer
+    | rename value description
+    | update value {|row|
+      let value = $row.value
+      let need_quote = ['\' ',' '[' ']' '(' ')' ' ' '\t' "'" '"' "`"] | any {$in in $value}
+      if ($need_quote and ($value | path exists)) {
+        let expanded_path = if ($value starts-with ~) {$value | path expand --no-symlink} else {$value}
+        $'"($expanded_path | str replace --all "\"" "\\\"")"'
+      } else {$value}
+    }
+}
+
+let carapace_completer = {|spans: list<string>|
+    carapace $spans.0 nushell ...$spans
+    | from json
+    | if ($in | default [] | any {|| $in.display | str starts-with "ERR"}) { null } else { $in }
+}
+
+# This completer will use carapace by default
+let external_completer = {|spans|
+    let expanded_alias = scope aliases
+    | where name == $spans.0
+    | get -o 0.expansion
+
+    let spans = if $expanded_alias != null {
+        $spans
+        | skip 1
+        | prepend ($expanded_alias | split row ' ' | take 1)
+    } else {
+        $spans
+    }
+
+    match $spans.0 {
+        # carapace completions are incorrect for nu
+        nu => $fish_completer
+        # fish completes commits and branch names in a nicer way
+        git => $fish_completer
+        # carapace doesn't have completions for asdf
+        mise => $fish_completer
+        aws => $fish_completer
+        _ => $carapace_completer
+    } | do $in $spans
+}
+
+
+$env.config.completions = { external: { enable: true completer: $external_completer } }
+
+# END_OF_CHEZMOI_MANAGED
+{{- $parts := .chezmoi.stdin | splitList "# END_OF_CHEZMOI_MANAGED" -}}
+{{- if gt (len $parts) 1 -}}
+{{ index $parts 1 }}
+{{- end -}}
