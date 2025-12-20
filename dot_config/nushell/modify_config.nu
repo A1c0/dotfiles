@@ -166,6 +166,8 @@ let external_completer = {|spans|
 
 $env.config.completions = { external: { enable: true completer: $external_completer } }
 
+mise activate | ignore; # To active mise in subshell
+
 # END_OF_CHEZMOI_MANAGED
 {{- $parts := .chezmoi.stdin | splitList "# END_OF_CHEZMOI_MANAGED" -}}
 {{- if gt (len $parts) 1 -}}
