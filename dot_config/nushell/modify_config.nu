@@ -56,7 +56,6 @@ use  ~/.cache/pueue/completions.nu *
 
 # Theme
 source ./nu_scripts/themes/nu-themes/catppuccin-mocha.nu
-print ""
 $env.BAT_THEME = "Catppuccin Mocha"
 $env.MANPAGER = "sh -c 'col -bx | bat -l man -p'"
 $env.LS_COLORS = (vivid generate catppuccin-mocha | str trim)
