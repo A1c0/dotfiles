@@ -18,29 +18,15 @@
 # You can remove these comments if you want or leave
 # them for future reference.
 
-const shell_dependencies = [
-    "zoxide",
-    "fish",
-    "atuin",
-    "mise",
-    "bat",
-    "vivid",
-    "starship",
-    "broot",
-]
-
-use check-install.nu;
-check-install $shell_dependencies
-
 $env.config.show_banner = false
 
 # Note: The conversions happen *after* config.nu is loaded
 let bool_conversion = { from_string: { |s| $s | into bool } to_string: { |v| $v | into string } }
 $env.ENV_CONVERSIONS = $env.ENV_CONVERSIONS | insert __zoxide_hooked $bool_conversion
 
+use ~/.cache/mise/activate.nu;
 source ~/.cache/zoxide/.zoxide.nu;
 source ~/.cache/atuin/init.nu;
-use ~/.cache/mise/activate.nu;
 
 alias meteo = curl v2.wttr.in
 
