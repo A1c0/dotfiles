@@ -1,0 +1,6 @@
+[tools]
+node = "lts"
+"npm:@typescript/native-preview" = "latest"
+"npm:@vtsls/language-server" = "latest"
+"npm:dockerfile-language-server-nodejs" = "latest"
+"npm:typescript-language-server" = "latest"
