@@ -10,7 +10,7 @@ sketchybar --bar position=top height=35 blur_radius=0 color=0x00000000
 (sketchybar --default padding_left=0
                       padding_right=0
                       icon.font="Hack Nerd Font:Bold:15.0"
-                      label.font="SF Pro:Regular:13.0"
+                      label.font="JetBrainsMono Nerd Font Mono:Regular:14.0"
                       icon.color=(color mocha text)
                       label.color=(color mocha text)
                       icon.padding_left=6
@@ -24,7 +24,7 @@ sketchybar --add event aerospace_monitor_change
 sketchybar --add event aerospace_mode_change
 
 let space_icon_default = [
-   "icon.font=SF Pro:Bold:15.0",
+   "icon.font=JetBrainsMono Nerd Font Mono:Bold:15.0",
    "label.font=sketchybar-app-font:Regular:16.0",
    background.corner_radius=5,
    background.height=25,
@@ -56,7 +56,7 @@ let visible_workspace_option = aerospace list-monitors --json
   | each {|display|
     [
       --add item $"focused_space.($display).label" left
-      --set $"focused_space.($display).label" "icon.font=SF Pro:Bold:15.0"
+      --set $"focused_space.($display).label" "icon.font=JetBrainsMono Nerd Font Mono:Bold:15.0"
                                               label.drawing=false
                                               display=($display)
                                               padding_right=4
@@ -99,16 +99,17 @@ let space_subcriber = 'space_subcriber'
 
 (sketchybar --add item aerospace_mode left
             --subscribe aerospace_mode aerospace_mode_change
-            --set aerospace_mode background.color=(color mocha base --alpha 0.7)
+            --set aerospace_mode background.color=(color mocha base --alpha 0.8)
                                  background.corner_radius=15
                                  background.height=20
-                                 background.border_color=(color mocha mauve --alpha 0.9)
+                                 background.border_color=(color mocha mauve)
                                  background.border_width=2
                                  background.padding_left=5
                                  background.padding_right=5
+                                 background.height=22
                                  icon.drawing=false
-                                 label.font="SF Pro:Bold:13.0"
-                                 label.color=(color mocha mauve --alpha 0.9)
+                                 label.font="JetBrainsMono Nerd Font Mono:Bold:13.0"
+                                 label.color=(color mocha mauve)
                                  label.align=center
                                  label.padding_left=7
                                  label.padding_right=7
@@ -126,11 +127,11 @@ let space_subcriber = 'space_subcriber'
             --set clock update_freq=1
                         script=($PLUGIN_DIR)/clock.nu
                         icon=
-                        "label.font=SF Mono:Regular:13.0"
+                        label.padding_right=10
+                        icon.padding_left=10
             --add item battery right
             --subscribe battery power_source_change
             --set battery
-                  "label.font=SF Mono:Regular:13.0"
                   update_freq=1
                   click_script="open -a AlDente"
                   script=($PLUGIN_DIR)/battery.nu
@@ -146,7 +147,7 @@ let space_subcriber = 'space_subcriber'
             --add bracket sys_panel clock battery no_internet
             --set         sys_panel background.color=(color mocha base --alpha 0.6)
                                     background.corner_radius=10
-                                    background.height=25
+                                    background.height=27
                                     blur_radius=50
 
             --add item spacer_1 right
@@ -155,34 +156,36 @@ let space_subcriber = 'space_subcriber'
                   padding_right=5
                   label.drawing=false)
 
+let GITHUB_ICON_FONT = "Hack Nerd Font:Regular:14.0"
+
 (sketchybar --add item github_release right
             --set github_release icon=
-                                 icon.font="Hack Nerd Font:Regular:14.0"
+                                 icon.font=($GITHUB_ICON_FONT)
                                  icon.color=(color mocha overlay2)
                                  drawing=false
             --add item github_issue_closed right
             --set github_issue_closed icon=
-                                      icon.font="Hack Nerd Font:Regular:14.0"
+                                      icon.font=($GITHUB_ICON_FONT)
                                       icon.color=(color mocha mauve)
                                       drawing=false
             --add item github_issue_open right
             --set github_issue_open icon=
-                                    icon.font="Hack Nerd Font:Regular:14.0"
+                                    icon.font=($GITHUB_ICON_FONT)
                                     icon.color=(color mocha green)
                                     drawing=false
             --add item github_pr_closed right
             --set github_pr_closed icon=
-                                   icon.font="Hack Nerd Font:Regular:14.0"
+                                   icon.font=($GITHUB_ICON_FONT)
                                    icon.color=(color mocha red)
                                    drawing=false
             --add item github_pr_merged right
             --set github_pr_merged icon=
-                                  icon.font="Hack Nerd Font:Regular:14.0"
+                                  icon.font=($GITHUB_ICON_FONT)
                                   icon.color=(color mocha mauve)
                                   drawing=false
             --add item github_pr_open right
             --set github_pr_open icon=
-                                 icon.font="Hack Nerd Font:Regular:14.0"
+                                 icon.font=($GITHUB_ICON_FONT)
                                  icon.color=(color mocha green)
                                  drawing=false
             --add item github_icon right
@@ -208,8 +211,8 @@ if ('~/.cache/reminder.nuon' | path exists) {
   | save -f ~/.cache/reminder.nuon
   sketchybar --add event reminder_db_change;
 
-  pueue group add watcher -p 1 | ignore
-  pueue add --group watcher -- "nu -c 'watch ~/.cache/reminder.nuon {sketchybar --trigger reminder_db_change }'"
+  # pueue group add watcher -p 1 | ignore
+  # pueue add --group watcher -- "nu -c 'watch ~/.cache/reminder.nuon {sketchybar --trigger reminder_db_change }'"
 
   (sketchybar --add item reminder_updater left
               --subscribe reminder_updater reminder_db_change
