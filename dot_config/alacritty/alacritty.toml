@@ -89,7 +89,7 @@ mods = "Command"
 hide_when_typing = true
 
 [terminal.shell]
-program = "/opt/homebrew/bin/nu"
+program = "/Users/a1c0/.local/share/mise/shims/nu"
 
 [window]
 blur = false
