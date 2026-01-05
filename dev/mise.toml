@@ -1,7 +1,9 @@
 [tools]
 node = "lts"
+"npm:@fsouza/prettierd" = "latest"
 "npm:@typescript/native-preview" = "latest"
 "npm:@vtsls/language-server" = "latest"
 "npm:dockerfile-language-server-nodejs" = "latest"
+"npm:eslint_d" = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:vscode-langservers-extracted" = "v4.8.0"
