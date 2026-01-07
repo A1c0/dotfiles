@@ -6,4 +6,4 @@ pueue kill --group aerospace;
 pueue start --group aerospace;
 
 pueue add --group aerospace --label sketchybar -- sketchybar
-pueue add --group aerospace --label border -- borders active_color=0xffc6a0f6 inactive_color=0x00000000 width=8.0
+pueue add --group aerospace --label border -- borders active_color=0xffc6a0f6 inactive_color=0x00000000 width=7.0 hidpi=on
