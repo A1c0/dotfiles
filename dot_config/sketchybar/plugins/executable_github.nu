@@ -12,12 +12,12 @@ let table = [
   [github_pr_closed   , pull_request_closed],
   [github_pr_merged   , pull_request_merged],
   [github_pr_open     , pull_request_open],
+  [github_ci_fail     , check_suite_fail],
 ]
 
 
 def main [] {
-  let there_is_not_internet = internet there_is_not_internet;
-  if $there_is_not_internet {
+  if (internet there_is_not_internet) {
     let options = $table
     | each {|item| [--set $item.skechybar_item drawing=false]}
     | prepend [--set $env.NAME drawing=true icon.color=(color mocha overlay2)]
@@ -46,5 +46,5 @@ def main [] {
     | prepend [--set $env.NAME drawing=true icon.color=(color mocha text)]
   }
   | flatten
-  sketchybar ...$options 
+  sketchybar ...$options
 }

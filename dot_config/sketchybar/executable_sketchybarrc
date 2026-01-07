@@ -178,6 +178,11 @@ let GITHUB_ICON_FONT = "Hack Nerd Font:Regular:14.0"
                                    icon.font=($GITHUB_ICON_FONT)
                                    icon.color=(color mocha red)
                                    drawing=false
+            --add item github_ci_fail right
+            --set github_ci_fail icon=
+                                   icon.font=($GITHUB_ICON_FONT)
+                                   icon.color=(color mocha red)
+                                   drawing=false
             --add item github_pr_merged right
             --set github_pr_merged icon=
                                   icon.font=($GITHUB_ICON_FONT)
