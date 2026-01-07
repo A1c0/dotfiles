@@ -1,6 +1,7 @@
 [tools]
 node = "lts"
 "npm:@fsouza/prettierd" = "latest"
+"npm:@postgres-language-server/cli" = "latest"
 "npm:@typescript/native-preview" = "latest"
 "npm:@vtsls/language-server" = "latest"
 "npm:dockerfile-language-server-nodejs" = "latest"
