@@ -1,6 +1,6 @@
 [tools]
 atuin = "18.10.0"
-chezmoi = "2.69.0"
+chezmoi = "2.69.1"
 bat = "0.26.1"
 helix = "25.07.1"
 starship = "1.24.2"
@@ -18,4 +18,4 @@ gh = "2.83.2"
 "aqua:fish-shell/fish-shell" = "4.3.3"
 carapace = "1.5.7"
 "aqua:nushell/nushell" = "0.109.1"
-opencode = "1.1.8"
+opencode = "1.1.14"
