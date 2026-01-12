@@ -5,6 +5,7 @@ shell = ["nu", "--stdin", "-c"]
 completion-replace = true
 trim-trailing-whitespace = true
 end-of-line-diagnostics = "hint"
+true-color = true
 color-modes = true
 # rainbow-brackets = true
 
