@@ -1,5 +1,7 @@
+use std
+
 # Ensure pueue deamon started
-try { pueue | ignore } catch { pueued -d }
+try { pueue o+e> (std null-device) } catch { pueued -d }
 
 pueue group add aerospace --parallel 2 | ignore;
 pueue kill --group aerospace;
