@@ -153,6 +153,31 @@ $env.config.completions = { external: { enable: true completer: $external_comple
 
 mise activate | ignore; # To active mise in subshell
 
+def flatten-record [
+    --separator: string = "."  # Séparateur pour les clés (par défaut: ".")
+] {
+    let record: record = $in
+    def flatten-helper [prefix: string, data: any] {
+        if ($data | describe) =~ "record" {
+            $data | items {|key, value|
+                let new_prefix = if ($prefix | is-empty) {
+                    $key
+                } else {
+                    $"($prefix)($separator)($key)"
+                }
+                flatten-helper $new_prefix $value
+            } | flatten
+        } else {
+            [{key: $prefix, value: $data}]
+        }
+    }
+
+    flatten-helper "" $record
+    | reduce --fold {} {|item, acc|
+        $acc | insert $item.key $item.value
+    }
+}
+
 # END_OF_CHEZMOI_MANAGED
 {{- $parts := .chezmoi.stdin | splitList "# END_OF_CHEZMOI_MANAGED" -}}
 {{- if gt (len $parts) 1 -}}
