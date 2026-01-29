@@ -1,6 +1,6 @@
 
 # get battery status
-export def 'status' [] {
+export def 'status' []: nothing -> record<percentage: int state: string> {
   pmset -g batt
   | parse -r '-InternalBattery-0 \(id=\d+\)\s*(?<percentage>\d+)%;\s*(?<state>[^;]+);'
   | first

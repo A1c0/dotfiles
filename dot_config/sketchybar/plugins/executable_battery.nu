@@ -21,18 +21,25 @@ def get_icon [percentage:number, battery_state: string] {
   }
 }
 
-def get_color [state: string] {
+def get_color [percentage: int, state: string] {
   match $state {
     "AC attached" => (color mocha blue),
     "charging" => (color mocha green),
-    _ => (color mocha text)
+    _ => {
+      match $percentage {
+        1..10 => (color mocha red),
+        11..20 => (color mocha yellow),
+        _ => (color mocha text)
+      }
+    }
+
   }
 }
 
 def main [] {
   let status = battery status;
   let icon = get_icon $status.percentage $status.state
-  let icon_color = get_color $status.state
+  let icon_color = get_color $status.percentage $status.state
 
   sketchybar --set $env.NAME $"label=($status.percentage)%" icon=($icon) icon.color=($icon_color)
 }
