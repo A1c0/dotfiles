@@ -4,3 +4,9 @@ formatter = { command = 'pg_format' }
 
 [language-server.rust-analyzer.config.check]
 command = "clippy"
+
+[[language]]
+name = "typescript"
+formatter = { command = 'prettierd', args = ["--stdin-filepath", "%{buffer_name}"] }
+auto-format = true
+
