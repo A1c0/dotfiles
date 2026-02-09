@@ -99,8 +99,7 @@ def restart_superkey [] {
   ^open /Applications/Superkey.app
 }
 
-use '~/.config/broot/launcher/nushell/br' *
-alias br-zellij = with-env ({ EDITOR: ("~/.config/extra/open-on-right" | path expand) }) { br }
+alias br-zellij = with-env ({ EDITOR: ("~/.config/extra/open-on-right" | path expand) }) { broot }
 
 let fish_completer = {|spans|
     fish --command $"complete '--do-complete=($spans | str replace --all "'" "\\'" | str join ' ')'"
@@ -148,10 +147,7 @@ let external_completer = {|spans|
     } | do $in $spans
 }
 
-
 $env.config.completions = { external: { enable: true completer: $external_completer } }
-
-mise activate | ignore; # To active mise in subshell
 
 def flatten-record [
     --separator: string = "."  # Séparateur pour les clés (par défaut: ".")
@@ -177,6 +173,8 @@ def flatten-record [
         $acc | insert $item.key $item.value
     }
 }
+
+def "from tsc" []: string -> table {ansi strip | parse -r '(?<file>.*?)\((?<line>\d+),(?<carret>\d+)\): error (?<code>TS\d+):(?<error>.*)'}
 
 # END_OF_CHEZMOI_MANAGED
 {{- $parts := .chezmoi.stdin | splitList "# END_OF_CHEZMOI_MANAGED" -}}
