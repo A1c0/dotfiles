@@ -142,12 +142,13 @@ let external_completer = {|spans|
         git => $fish_completer
         # carapace doesn't have completions for asdf
         mise => $fish_completer
-        aws => $fish_completer
         _ => $carapace_completer
     } | do $in $spans
 }
 
 $env.config.completions = { external: { enable: true completer: $external_completer } }
+
+mise activate | ignore; # To active mise in subshell
 
 def flatten-record [
     --separator: string = "."  # Séparateur pour les clés (par défaut: ".")
