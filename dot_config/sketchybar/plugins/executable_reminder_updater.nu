@@ -2,11 +2,13 @@
 
 let PLUGIN_DIR = $"($env.CONFIG_DIR)/plugins"
 
+const PREFIX = "reminder-"
+
 use ../utils/color.nu;
 
 
 def add_item [uuid: string, name: string, done_date: datetime] {
-  let reminder_item = $"reminder-($uuid)"
+  let reminder_item = $"($PREFIX)($uuid)"
 
   (sketchybar --add item $reminder_item right
               --set $reminder_item icon.font="Hack Nerd Font:Regular:11.0"
@@ -28,11 +30,10 @@ def add_item [uuid: string, name: string, done_date: datetime] {
 }
 
 def main [] {
-  let existing = sketchybar --query bar | from json | get items | where $it like reminder and $it not-like updater | each {str replace 'reminder-' ''}
+  let existing = sketchybar --query bar | from json | get items | where $it like reminder and $it not-like updater | each {str replace $PREFIX ''}
 
   let items = open ~/.cache/reminder.nuon
-  | where done_date > ( date now )
-  | where uuid not-in $existing
+  | where done_date > ( date now ) and uuid not-in $existing
 
   for $item in $items {
     add_item $item.uuid $item.name $item.done_date
