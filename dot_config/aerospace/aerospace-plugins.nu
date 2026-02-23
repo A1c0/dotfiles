@@ -3,9 +3,10 @@ use std
 # Ensure pueue deamon started
 try { pueue o+e> (std null-device) } catch { pueued -d }
 
-pueue group add aerospace --parallel 2 | ignore;
+pueue group add aerospace --parallel 3 | ignore;
 pueue kill --group aerospace;
 pueue start --group aerospace;
 
 pueue add --group aerospace --label sketchybar -- sketchybar
+pueue add --group aerospace --label sketchybar_reminder -- "nu -c 'watch ~/.cache/reminder.nuon {sketchybar --trigger reminder_db_change }'"
 pueue add --group aerospace --label border -- "borders active_color=\"glow\(0xffc6a0f6\)\" inactive_color=0x00000000 width=3.0 hidpi=on order=above"
