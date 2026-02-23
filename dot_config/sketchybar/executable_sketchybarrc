@@ -132,7 +132,7 @@ let space_subcriber = 'space_subcriber'
             --add item battery right
             --subscribe battery power_source_change
             --set battery
-                  update_freq=1
+                  update_freq=5
                   click_script="open -a AlDente"
                   script=($PLUGIN_DIR)/battery.nu
             --add item no_internet right
@@ -209,21 +209,22 @@ let GITHUB_ICON_FONT = "Hack Nerd Font:Regular:14.0"
                                        blur_radius=50)
 
 # Reminders
+#
 if ('~/.cache/reminder.nuon' | path exists) {
   open ~/.cache/reminder.nuon
   | where done_date > ( date now )
   | collect
   | save -f ~/.cache/reminder.nuon
   sketchybar --add event reminder_db_change;
-
-  # pueue group add watcher -p 1 | ignore
-  # pueue add --group watcher -- "nu -c 'watch ~/.cache/reminder.nuon {sketchybar --trigger reminder_db_change }'"
-
-  (sketchybar --add item reminder_updater left
-              --subscribe reminder_updater reminder_db_change
-              --set reminder_updater drawing=false
-                                     script=($PLUGIN_DIR)/reminder_updater.nu)
+} else {
+  [] | save ~/.cache/reminder.nuon
 }
+
+(sketchybar --add item reminder_updater left
+            --subscribe reminder_updater reminder_db_change
+            --set reminder_updater drawing=false
+                                   script=($PLUGIN_DIR)/reminder_updater.nu)
+
 
 # sketchybar --hotload true
 ##### Force all scripts to run the first time (never do this in a script) #####
