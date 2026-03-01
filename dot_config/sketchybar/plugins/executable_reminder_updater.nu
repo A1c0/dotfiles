@@ -22,7 +22,7 @@ def add_item [uuid: string, name: string, done_date: datetime] {
                                    icon.padding_left=10
                                    label=($name)
                                    label.font="Hack Nerd Font:Regular:11.0"
-                                   label.max_chars=10
+                                   label.max_chars=20
                                    scroll_texts=true
                                    script=$"($PLUGIN_DIR)/reminder.nu ($uuid)"
                                    update_freq=1
