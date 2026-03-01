@@ -6,7 +6,7 @@ export def add [
 ] {
   if ($at | is-not-empty) {
     open ~/.cache/reminder.nuon
-    | append {uuid:(random uuid), name: $name, done_date:($"(date now | $in | format date "%F")T$($at):00" | into datetime)}
+    | append {uuid:(random uuid), name: $name, done_date:($"(date now | $in | format date "%F")T($at):00" | into datetime)}
     | collect
     | save -f ~/.cache/reminder.nuon
   } else if ($for | is-not-empty) {
