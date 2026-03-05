@@ -137,11 +137,10 @@ let external_completer = {|spans|
 
     match $spans.0 {
         # carapace completions are incorrect for nu
-        nu => $fish_completer
+        nu => $carapace_completer
         # fish completes commits and branch names in a nicer way
-        git => $fish_completer
+        git => $carapace_completer
         # carapace doesn't have completions for asdf
-        mise => $fish_completer
         _ => $carapace_completer
     } | do $in $spans
 }
