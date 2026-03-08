@@ -87,11 +87,10 @@ sketchybar ...($visible_workspace_option | flatten)
 
 let space_subcriber = 'space_subcriber'
 
-
 (sketchybar --add item $space_subcriber left
+            --subscribe $space_subcriber front_app_switched
             --subscribe $space_subcriber aerospace_workspace_change
             --subscribe $space_subcriber aerospace_monitor_change
-            --subscribe $space_subcriber front_app_switched
             --subscribe $space_subcriber space_windows_change
             --set $space_subcriber drawing=false
                                    script=($PLUGIN_DIR)/space.nu)

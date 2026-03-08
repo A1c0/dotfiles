@@ -3,6 +3,9 @@
 use ../utils/icon.nu;
 use ../utils/color.nu;
 use ../utils/aerospace.nu;
+use ../utils/logger.nu;
+$env.SKETCHYBAR_LOGGER_LABEL = $"(ansi blue)space(ansi reset)"
+
 
 def render_visible_workspace [item, table] {
 
@@ -16,7 +19,7 @@ def render_visible_workspace [item, table] {
 
   let workspace_option = [
       --set $"focused_space.($display).label" icon=($workspace)
-      --set $"focused_space.($display).focused_app" label=($focused_app) drawing=($focused_app | is-not-empty) 
+      --set $"focused_space.($display).focused_app" label=($focused_app) drawing=($focused_app | is-not-empty)
       --set $"focused_space.($display).unfocused_apps" label=($unfocused_apps) drawing=($unfocused_apps | is-not-empty)
 
       --set $"focused_space.($display).panel" background.border_width=($border_width),
@@ -58,7 +61,7 @@ def render_workspace [
                               display=($space.display),
                               drawing=on,
         ]
-      }   
+      }
     }
   }
 
@@ -69,10 +72,13 @@ def render_workspace [
 }
 
 def main [] {
-  match $env.SENDER {
-    'aerospace_workspace_change' => {
-      render_workspace --only_workspaces [$env.AEROSPACE_FOCUSED_WORKSPACE, $env.AEROSPACE_PREV_WORKSPACE] 
-    },
-    _ => { render_workspace }
+  let process_duration: duration = timeit {
+    match $env.SENDER {
+      'aerospace_workspace_change' => {
+        render_workspace --only_workspaces [$env.AEROSPACE_FOCUSED_WORKSPACE, $env.AEROSPACE_PREV_WORKSPACE]
+      },
+      _ => { render_workspace }
+    }
   }
+  logger log $env.SENDER $process_duration
 }
