@@ -54,7 +54,7 @@ use std/dirs shells-aliases *
 # Prompt
 use ~/.cache/starship/init.nu
 
-# Spawn new Node.js projet
+# Spawn new Node.js project
 def new-node-projet [] {
     {name: (pwd | path basename), version: "0.0.0" licence: "MIT"} | save package.json
 }
