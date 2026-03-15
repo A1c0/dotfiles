@@ -38,7 +38,6 @@ alias ld = lazydocker
 
 use ./nu_scripts/custom-completions/zellij/zellij-completions.nu *
 use ./nu_scripts/custom-completions/glow/glow-completions.nu *
-use  ~/.cache/pueue/completions.nu *
 
 # Theme
 source ./nu_scripts/themes/nu-themes/catppuccin-mocha.nu
