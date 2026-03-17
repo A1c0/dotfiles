@@ -23,7 +23,7 @@ print $'~/.cache/mise/activate.nu (ansi green_bold)created(ansi reset)'
 # Vivid
 mkdir ~/.cache/vivid
 $"$env.LS_COLORS = \"(vivid generate catppuccin-mocha)\""
-| save ~/.cache/vivid/init.nu
+| save --force ~/.cache/vivid/init.nu
 print $'~/.cache/vivid/init/nu (ansi green_bold)created(ansi reset)'
 
 # Starship
