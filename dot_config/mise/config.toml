@@ -1,5 +1,5 @@
 [tools]
-atuin = "18.13.2"
+atuin = "18.13.3"
 chezmoi = "2.70.0"
 bat = "0.26.1"
 helix = "25.07.1"
