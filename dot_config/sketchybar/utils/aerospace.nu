@@ -1,7 +1,6 @@
 export def table [] {
   let visible_workspaces = aerospace list-workspaces --monitor all --visible | lines
   let focused_workspace = aerospace list-workspaces --focused
-
   let monitor_table = aerospace list-monitors --json
   | from json
   | select monitor-id
@@ -23,8 +22,8 @@ export def table [] {
   | rename monitor display
   | select monitor display
 
-  let focused_window_id = aerospace list-windows --focused --json | from json | get 0.window-id --optional
-  
+  let focused_window_id = try {aerospace list-windows --focused --json | from json | get 0.window-id}
+
   let app_table = aerospace list-workspaces --monitor all --empty no
   | lines
   | wrap workspace
