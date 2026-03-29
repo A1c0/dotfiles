@@ -18,23 +18,28 @@ def fix_with_hash [hash: string, fix: closure]: string -> string {
 mkdir ~/.cache/mise
 mise activate --shell nu
 | save --force ~/.cache/mise/activate.nu
-print $'~/.cache/mise/activate.nu (ansi green_bold)created(ansi reset)'
+print $'~/.cache/mise/activate.nu  (ansi green_bold)created(ansi reset)'
 
 # Vivid
 mkdir ~/.cache/vivid
 $"$env.LS_COLORS = \"(vivid generate catppuccin-mocha)\""
 | save --force ~/.cache/vivid/init.nu
-print $'~/.cache/vivid/init/nu (ansi green_bold)created(ansi reset)'
+print $'~/.cache/vivid/init/nu     (ansi green_bold)created(ansi reset)'
 
 # Starship
 mkdir ~/.cache/starship
 starship init nu | save --force ~/.cache/starship/init.nu
-print $'~/.cache/starship/init.nu (ansi green_bold)created(ansi reset)'
+print $'~/.cache/starship/init.nu  (ansi green_bold)created(ansi reset)'
 
 # Zoxide
 mkdir ~/.cache/zoxide
 zoxide init nushell | save --force ~/.cache/zoxide/.zoxide.nu
 print $'~/.cache/zoxide/.zoxide.nu (ansi green_bold)created(ansi reset)'
+
+# Television
+mkdir ~/.cache/tv
+tv init nu | save --force ~/.cache/tv/init.nu
+print $'~/.cache/tv/init.nu        (ansi green_bold)created(ansi reset)'
 
 # Atuin
 mkdir ~/.cache/atuin
@@ -42,5 +47,5 @@ atuin init nu
 | str replace --regex --multiline '^\$env.config = \((\s.*?\n)*^\s*?keycode: up$(.*?\n)*?^\)$' ''
 | str replace 'char_r' 'char_s'
 | save --force ~/.cache/atuin/init.nu
-print $'~/.cache/atuin/init.nu (ansi green_bold)created(ansi reset)'
+print $'~/.cache/atuin/init.nu     (ansi green_bold)created(ansi reset)'
 
