@@ -47,8 +47,6 @@ use ~/.cache/starship/init.nu
 ^mise activate | ignore; # To active mise in subshell
 
 # --------- My Nu Script ---------
-# Config
-source ./my-nu-scripts/config/external-completer.nu
 # Utils
 source ./my-nu-scripts/utils/custom-from.nu
 source ./my-nu-scripts/utils/tranform.nu
@@ -64,5 +62,6 @@ use ./my-nu-scripts/module/alacritty-config.nu
 use ./my-nu-scripts/module/mac.nu
 # Completion
 use ./my-nu-scripts/completion/mise.nu
-
-# END_OF_CHEZMOI_MANAGED
+# Config
+source ./my-nu-scripts/config/external-completer.nu
+source ./my-nu-scripts/config/mise_auto_install.nu
