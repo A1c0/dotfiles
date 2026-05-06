@@ -7,7 +7,6 @@ trim-trailing-whitespace = true
 end-of-line-diagnostics = "hint"
 true-color = true
 color-modes = true
-scroll-lines = 1
 # rainbow-brackets = true
 
 [editor.soft-wrap]
@@ -23,7 +22,6 @@ render = true
 focus-lost = true
 after-delay.enable = true
 after-delay.timeout = 300000
-
 
 [editor.inline-diagnostics]
 # Minimum severity to show a diagnostic on the primary cursor's line.
