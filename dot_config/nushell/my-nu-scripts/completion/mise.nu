@@ -68,26 +68,26 @@ export extern "en" [
 
 # Exports env vars to activate mise a single time [aliases: e]
 export extern "env" [
-  ...tools: list<string> # Tool(s) to use
-  --dotenv (-D)          # Output in dotenv format
-  --json (-J)            # Output in JSON format
-  --shell (-s): string   # Shell type to generate environment variables for
-  --redacted             # Only show redacted environment variables
-  --values               # Only show values of environment variables
-  --cd (-C): directory   # Change directory before running command
-  --env (-E): string     # Set the environment for loading `mise.<ENV>.toml`
-  --jobs (-j):int        # How many jobs to run in parallel [default: 8]
-  --quiet (-q)           # Suppress non-error messages
-  --yes (-y)             # Answer yes to all confirmation prompts
-  --raw                  # Read/write directly to stdin/stdout/stderr instead of by line
-  --locked               # Require lockfile URLs to be present during installation
-  --silent               # Suppress all task output and mise non-error messages
-  --help (-h)            # Print help (see a summary with '-h')
+  ...tools: string     # Tool(s) to use
+  --dotenv (-D)        # Output in dotenv format
+  --json (-J)          # Output in JSON format
+  --shell (-s): string # Shell type to generate environment variables for
+  --redacted           # Only show redacted environment variables
+  --values             # Only show values of environment variables
+  --cd (-C): directory # Change directory before running command
+  --env (-E): string   # Set the environment for loading `mise.<ENV>.toml`
+  --jobs (-j):int      # How many jobs to run in parallel [default: 8]
+  --quiet (-q)         # Suppress non-error messages
+  --yes (-y)           # Answer yes to all confirmation prompts
+  --raw                # Read/write directly to stdin/stdout/stderr instead of by line
+  --locked             # Require lockfile URLs to be present during installation
+  --silent             # Suppress all task output and mise non-error messages
+  --help (-h)          # Print help (see a summary with '-h')
 ]
 
 # Execute a command with tool(s) set [aliases: x]
 export extern "exec" [
-  ...tools: list<string> # Tool(s) to start e.g.: node@20 python@3.10
+  ...tools: string # Tool(s) to start e.g.: node@20 python@3.10
   --command (-c): string # Command string to execute
   --jobs (-j):int        # Number of jobs to run in parallel
   --raw                  # Directly pipe stdin/stdout/stderr from plugin to user Sets --jobs=1
@@ -190,7 +190,7 @@ export extern "link" [
 
 # Update lockfile checksums and URLs for all specified platforms
 export extern "lock" [
-  ...tool: list<string>    # Tool(s) to update in lockfile
+  ...tool: string    # Tool(s) to update in lockfile
   --global (-g)            # Include global config lockfile (~/.config/mise/mise.lock)
   --jobs (-j):int          # Number of jobs to run in parallel
   --platform (-p):  string # Comma-separated list of platforms to target
@@ -207,7 +207,7 @@ export extern "lock" [
 
 # List installed and active tool versions [aliases: list]
 export extern "ls" [
-  ...installed_tool: list<string> # Only show tool versions from tool
+  ...installed_tool: string # Only show tool versions from tool
   --current (-c)                  # Only show tool versions currently specified in a mise.toml
   --global (-g)                   # Only show tool versions currently specified in the global mise.toml
   --installed (-i)                # Only show tool versions that are installed (Hides tools defined in mise.toml but not installed)
@@ -254,7 +254,7 @@ export extern "oci" []
 
 # Shows outdated tool versions
 export extern "outdated" [
-  ...tools: list<string> # Tool(s) to show outdated versions for
+  ...tools: string # Tool(s) to show outdated versions for
   --json (-J)            # Output in JSON format
   --bump (-l)            # Compares against the latest versions available, not what matches the current config
   --local                # Only show outdated tools defined in local config files
@@ -293,7 +293,7 @@ export extern "deps" [
 
 # Delete unused versions of tools
 export extern "prune" [
-  ...installed_tool: list<string> # Prune only these tools
+  ...installed_tool: string # Prune only these tools
   --configs                       # Prune only tracked and trusted configuration links that point to non-existent configurations
   --tools                         # Prune only unused versions of tools
   --cd (-C): directory            # Change directory before running command
@@ -330,7 +330,7 @@ export extern "reshim" []
 # Run task(s) [aliases: r]
 export extern "run" [
   task                     # Tasks to run
-  ...args: list<string>    # Arguments to pass to the tasks. Use ":::" to separate tasks
+  ...args: string    # Arguments to pass to the tasks. Use ":::" to separate tasks
   --cd (-C): path          # Change to this directory before executing the command
   --force (-f)             # Force the tasks to run even if outputs are up to date
   --jobs (-j):int          # Number of tasks to run in parallel
@@ -501,7 +501,7 @@ export extern "trust" [
 
 # Removes installed tool versions
 export extern "uninstall" [
-  ...tools: list<string> # Tool(s) to remove
+  ...tools: string # Tool(s) to remove
   --all (-a)             # Delete all installed versions
   --cd (-C): directory   # Change directory before running command
   --env (-E): string     # Set the environment for loading `mise.<ENV>.toml`
@@ -535,7 +535,7 @@ export extern "untrust" []
 
 # Removes installed tool versions from mise.toml [aliases: rm, remove]
 export extern "unuse" [
-  ...installed_tool: list<string> # Tool(s) to remove
+  ...installed_tool: string # Tool(s) to remove
   --env (-e): string              # Create/modify an environment-specific config file like .mise.<env>.toml
   --global (-g)                   # Use the global config file (`~/.config/mise/config.toml`) instead of the local one
   --path (-p) path: path          # Specify a path to a config file or directory
@@ -551,11 +551,11 @@ export extern "unuse" [
 
 # Upgrades outdated tools [aliases: up]
 export extern "upgrade" [
-  ...installed_tool: list<string> # Tool(s) to upgrade
+  ...installed_tool: string # Tool(s) to upgrade
   --interactive (-i)              # Display multiselect menu to choose which tools to upgrade
   --jobs (-j):int                 # Number of jobs to run in parallel
   --bump (-l)                     # Upgrades to the latest version available, bumping the version in mise.toml
-  --exclude (-x): list<string>    # Tool(s) to exclude from upgrading
+  --exclude (-x): string    # Tool(s) to exclude from upgrading
   --before: string                # Only upgrade to versions released before this date
   --local                         # Only upgrade tools defined in local config files
   --raw                           # Directly pipe stdin/stdout/stderr from plugin to user Sets --jobs=1
@@ -570,7 +570,7 @@ export extern "upgrade" [
 
 # Installs a tool and adds the version to mise.toml. [aliases: u]
 export extern "use" [
-  ...tools: list<string> # Tool(s) to add to config file
+  ...tools: string # Tool(s) to add to config file
   --env (-e): string     # Create/modify an environment-specific config file like .mise.<env>.toml
   --force (-f)           # Force reinstall even if already installed
   --global (-g)          # Use the global config file (`~/.config/mise/config.toml`) instead of the local one
@@ -600,7 +600,7 @@ export extern "watch" [
   --signal (-s): string      # Send a signal to the process when it's still running
   --debounce (-d): int       # Time to wait for new events before taking action
   --postpone (-p)            # Wait until first change before running command
-  --poll: list<string>       # Poll for filesystem changes
+  --poll: string       # Poll for filesystem changes
   --workdir: directory       # Set the working directory
   --cd (-C): directory       # Change directory before running command
   --jobs (-j):int            # How many jobs to run in parallel [default: 8]
@@ -613,7 +613,7 @@ export extern "watch" [
   --exts (-e): string        # Filename extensions to filter to
   --filter (-f): string      # Filename patterns to filter to
   --ignore (-i): string      # Filename patterns to filter out
-  --clear (-c): list<string> # Clear screen before running command
+  --clear (-c): string # Clear screen before running command
   --notify (-N)              # Alert when commands start and end
   --color: string            # When to use terminal colours
   --timings                  # Print how long the command took to run
