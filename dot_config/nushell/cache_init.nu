@@ -36,11 +36,6 @@ mkdir ~/.cache/zoxide
 zoxide init nushell | save --force ~/.cache/zoxide/.zoxide.nu
 print $'~/.cache/zoxide/.zoxide.nu (ansi green_bold)created(ansi reset)'
 
-# Television
-mkdir ~/.cache/tv
-tv init nu | save --force ~/.cache/tv/init.nu
-print $'~/.cache/tv/init.nu        (ansi green_bold)created(ansi reset)'
-
 # Atuin
 mkdir ~/.cache/atuin
 atuin init nu
