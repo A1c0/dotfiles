@@ -3,6 +3,7 @@ disable = ["node", "yarn", "uv"]
 no_self_update = true
 
 [commands]
+"Mise Global Dependencies" = "nu $\"($env.XDG_CONFIG_HOME)/mise/update-global-deps.nu\""
 "Init Script Reload" = "nu $\"($env.XDG_CONFIG_HOME)/nushell/cache_init.nu\""
 
 [brew]
