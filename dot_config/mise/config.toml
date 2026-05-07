@@ -17,6 +17,8 @@ gh = "2.92.0"
 carapace = "1.6.5"
 "aqua:nushell/nushell" = "0.112.2"
 "cargo:tlrc" = "latest"
-television = "0.15.6"
 "aqua:fish-shell/fish-shell" = "4.7.0"
 "github:asciimoo/hister" = "0.13.0"
+
+[settings]
+auto_install = true
