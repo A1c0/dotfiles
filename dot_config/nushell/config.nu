@@ -26,6 +26,8 @@ let bool_conversion = {
 }
 $env.ENV_CONVERSIONS = $env.ENV_CONVERSIONS | insert __zoxide_hooked $bool_conversion
 
+^mise activate | ignore; # To active mise in subshell
+
 use ~/.cache/mise/activate.nu;
 source ~/.cache/zoxide/.zoxide.nu;
 source ~/.cache/atuin/init.nu;
@@ -44,7 +46,6 @@ use std/dirs shells-aliases *
 # Prompt
 use ~/.cache/starship/init.nu
 
-^mise activate | ignore; # To active mise in subshell
 
 # --------- My Nu Script ---------
 # Utils
@@ -65,3 +66,4 @@ use ./my-nu-scripts/completion/mise.nu
 # Config
 source ./my-nu-scripts/config/external-completer.nu
 source ./my-nu-scripts/config/mise_auto_install.nu
+
