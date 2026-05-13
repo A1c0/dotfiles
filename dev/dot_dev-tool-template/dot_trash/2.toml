@@ -1,0 +1,41 @@
+[language-server.biome]
+command = "./node_modules/.bin/biome"
+args = ["lsp-proxy"]
+
+[language-server.mpls]
+command = "mpls"
+args = ["--theme", "tokyonight", "--enable-emoji"]
+
+[language-server.harper-ls]
+command = "harper-ls"
+args = ["--stdio"]
+
+[[language]]
+name = "javascript"
+language-servers = [ { name = "typescript-language-server", except-features = [ "format" ] }, "biome" ]
+auto-format = true
+
+[[language]]
+name = "typescript"
+language-servers = [ { name = "typescript-language-server", except-features = [ "format" ] }, "biome" ]
+auto-format = true
+
+[[language]]
+name = "tsx"
+language-servers = [ { name = "typescript-language-server", except-features = [ "format" ] }, "biome" ]
+auto-format = true
+
+[[language]]
+name = "jsx"
+language-servers = [ { name = "typescript-language-server", except-features = [ "format" ] }, "biome" ]
+auto-format = true
+
+[[language]]
+name = "json"
+language-servers = [ { name = "vscode-json-language-server", except-features = [ "format" ] }, "biiome" ]
+
+[[language]]
+auto-format = true
+language-servers = ["marksman", "mpls", "harper-ls"]
+name = "markdown"
+

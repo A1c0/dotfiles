@@ -1,0 +1,60 @@
+[language-server.tailwindcss-ls]
+command = "tailwindcss-language-server"
+args = ["--stdio"]
+
+[language-server.eslint]
+command = "vscode-eslint-language-server"
+args = ["--stdio"]
+
+[language-server.eslint.config]
+validate = "on"
+experimental = { useFlatConfig = true }
+rulesCustomizations = []
+run = "onType"
+problems = { shortenToSingleLine = false }
+nodePath = ""
+codeAction = { disableRuleComment = { enable = true, location = "separateLine" }, showDocumentation = { enable = true } }
+
+[language-server.postgres-language-server]
+command = "postgres-language-server"
+args = ["lsp-proxy"]
+
+[[language]]
+name = "javascript"
+language-servers = [
+  { name = "typescript-language-server", except-features = [ "format" ] },
+  "eslint"
+]
+formatter = { command = 'prettierd', args = ["--stdin-filepath", "%{buffer_name}"] }
+auto-format = true
+
+[[language]]
+name = "typescript"
+language-servers = [
+  { name = "typescript-language-server", except-features = [ "format" ] },
+  "eslint"
+]
+formatter = { command = 'prettierd', args = ["--stdin-filepath", "%{buffer_name}"] }
+auto-format = true
+
+[[language]]
+name = "tsx"
+language-servers = [
+  { name = "typescript-language-server", except-features = [ "format" ] },
+  "tailwindcss-ls",
+  "eslint"
+]
+formatter = { command = 'prettierd', args = ["--stdin-filepath", "%{buffer_name}"] }
+auto-format = true
+
+[[language]]
+name = "json"
+language-servers = [ { name = "vscode-json-language-server", except-features = [ "format" ] } ]
+formatter = { command = './projects/ppp/node_modules/.bin/prettier', args = ["--parser", "json"] }
+auto-format = true
+
+[[language]]
+name = "sql"
+language-servers = [ "postgres-language-server" ]
+auto-format = true
+

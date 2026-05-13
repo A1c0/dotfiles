@@ -1,0 +1,7 @@
+[[name, tool, pin_version];
+["Prettierd","npm:@fsouza/prettierd",null]
+["Postgres","npm:@postgres-language-server/cli",null]
+["Docker","npm:dockerfile-language-server-nodejs",null]
+["Eslintd","npm:eslint_d",null]
+["Typescript","npm:typescript-language-server",null]
+["JSON","npm:vscode-langservers-extracted","4.8.0"]]
