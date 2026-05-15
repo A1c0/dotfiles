@@ -1,8 +1,0 @@
-[tools]
-node = "lts"
-"npm:@fsouza/prettierd" = "latest"
-"npm:@postgres-language-server/cli" = "latest"
-"npm:dockerfile-language-server-nodejs" = "latest"
-"npm:eslint_d" = "latest"
-"npm:typescript-language-server" = "latest"
-"npm:vscode-langservers-extracted" = "v4.8.0"
