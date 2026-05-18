@@ -18,7 +18,7 @@
 # them for future reference.
 
 $env.config.show_banner = false
-$env.config.completions.algorithm = "fuzzy"
+$env.config.completions.algorithm = "substring"
 
 # Note: The conversions happen *after* config.nu is loaded
 let bool_conversion = {
