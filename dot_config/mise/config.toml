@@ -1,6 +1,6 @@
 [tools]
 atuin = "18.16.1"
-chezmoi = "2.70.3"
+chezmoi = "2.70.4"
 bat = "0.26.1"
 helix = "25.07.1"
 starship = "1.25.1"
