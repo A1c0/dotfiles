@@ -71,5 +71,5 @@ source ./my-nu-scripts/config/mise_auto_install.nu
 # PWD hook for tlk
 $env.config.hooks.env_change.PWD = $env.config.hooks.env_change | get PWD --optional | default [] | append {
   condition: {|_, after| $after | path join 'toolkit' | path exists }
-  code: "overlay use --prefix toolkit as tlk"
+  code: "overlay use --prefix toolkit as tlk --reload"
 }

@@ -20,7 +20,7 @@ export def add [
 def "nu_complete reminder_uuid" [] { open ~/.cache/reminder.nuon | each {|it|{value: $it.uuid, description: $"($it.name) \(($it.done_date | format date '%Y-%m-%d %H:%M:%S'))"}}}
 
 # Remove Reminder
-export def "rm" [
+export def rm [
   uuid: string@"nu_complete reminder_uuid" # the uuid of reminder
 ] {
     open ~/.cache/reminder.nuon
@@ -30,4 +30,4 @@ export def "rm" [
 }
 
 # List all reminders
-export def "reminder list" []: nothing -> table { open ~/.cache/reminder.nuon }
+export def list []: nothing -> table { open ~/.cache/reminder.nuon }
