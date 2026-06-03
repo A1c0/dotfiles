@@ -36,6 +36,7 @@ let external_completer = {|spans|
         nu => $fish_completer
         aws => $fish_completer
         git => $fish_completer
+        mise => $fish_completer
         _ => $carapace_completer
     } | do $in $spans
 }
