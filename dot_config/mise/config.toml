@@ -16,10 +16,11 @@ delta = "0.19.2"
 gh = "2.93.0"
 carapace = "1.7.0"
 "aqua:nushell/nushell" = "0.113.1"
-"cargo:tlrc" = "latest"
+"cargo:tlrc" = "1.13.1"
 "aqua:fish-shell/fish-shell" = "4.7.1"
 "github:asciimoo/hister" = "0.14.0"
-"aqua:suzuki-shunsuke/ghtkn" = "latest"
+usage = "3.4.0"
+fzf = "0.73.1"
 
 [settings]
 auto_install = true
