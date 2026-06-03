@@ -41,6 +41,7 @@ mkdir ~/.cache/atuin
 atuin init nu
 | str replace --regex --multiline '^\$env.config = \((\s.*?\n)*^\s*?keycode: up$(.*?\n)*?^\)$' ''
 | str replace 'char_r' 'char_s'
+| str replace 'hide-env ATUIN_HISTORY_ID' 'hide-env -i ATUIN_HISTORY_ID'
 | save --force ~/.cache/atuin/init.nu
 print $'~/.cache/atuin/init.nu     (ansi green_bold)created(ansi reset)'
 
