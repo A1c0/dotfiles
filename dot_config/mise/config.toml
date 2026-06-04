@@ -1,6 +1,6 @@
 [tools]
 atuin = "18.16.1"
-chezmoi = "2.70.4"
+chezmoi = "2.70.5"
 bat = "0.26.1"
 helix = "25.07.1"
 starship = "1.25.1"
@@ -18,7 +18,7 @@ carapace = "1.7.0"
 "aqua:nushell/nushell" = "0.113.1"
 "cargo:tlrc" = "1.13.1"
 "aqua:fish-shell/fish-shell" = "4.7.1"
-"github:asciimoo/hister" = "0.14.0"
+"github:asciimoo/hister" = "0.15.0"
 usage = "3.4.0"
 fzf = "0.73.1"
 
