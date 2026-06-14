@@ -66,9 +66,7 @@ def render_workspace [
   }
 
   let all_options = $options | flatten --all
-
   sketchybar ...$all_options
-
 }
 
 def main [] {
@@ -77,6 +75,8 @@ def main [] {
       'aerospace_workspace_change' => {
         render_workspace --only_workspaces [$env.AEROSPACE_FOCUSED_WORKSPACE, $env.AEROSPACE_PREV_WORKSPACE]
       },
+      'space_windows_change' => {print $env.INFO}
+      'front_app_switched' => {aerospace list-windows --focused --json}
       _ => { render_workspace }
     }
   }
