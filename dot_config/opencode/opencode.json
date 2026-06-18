@@ -1,5 +1,12 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "anthropic/claude-sonnet-4-5",
-  "autoupdate": true
+  "autoupdate": true,
+  "agent": {
+    "plan": {
+      "model": "fireworks-ai/accounts/fireworks/models/glm-5p2"
+    },
+    "build": {
+      "model": "fireworks-ai/accounts/fireworks/models/deepseek-v4-flash"
+    }
+  }
 }

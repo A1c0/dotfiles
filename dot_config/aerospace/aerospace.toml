@@ -2,12 +2,6 @@ after-startup-command = [
     "exec-and-forget ~/.local/bin/mise exec -- nu ~/.config/aerospace/aerospace-plugins.nu"
 ]
 
-exec-on-workspace-change = [
-    '/bin/bash',
-    '-c',
-    'sketchybar --trigger aerospace_workspace_change AEROSPACE_FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE AEROSPACE_PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE',
-]
-
 start-at-login = false
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
@@ -50,37 +44,37 @@ cmd-alt-ctrl-shift-up = 'move up'
 cmd-alt-ctrl-shift-l = 'move right'
 cmd-alt-ctrl-shift-right = 'move right'
 
-cmd-alt-ctrl-1 = ['focus-monitor 1', 'exec-and-forget sketchybar --trigger aerospace_monitor_change MONITOR=1']
-cmd-alt-ctrl-2 = ['focus-monitor 2', 'exec-and-forget sketchybar --trigger aerospace_monitor_change MONITOR=2']
-cmd-alt-ctrl-3 = ['focus-monitor 3', 'exec-and-forget sketchybar --trigger aerospace_monitor_change MONITOR=3']
-cmd-alt-ctrl-4 = ['focus-monitor 4', 'exec-and-forget sketchybar --trigger aerospace_monitor_change MONITOR=4']
-cmd-alt-ctrl-5 = ['focus-monitor 5', 'exec-and-forget sketchybar --trigger aerospace_monitor_change MONITOR=5']
-cmd-alt-ctrl-6 = ['focus-monitor 6', 'exec-and-forget sketchybar --trigger aerospace_monitor_change MONITOR=6']
-cmd-alt-ctrl-7 = ['focus-monitor 7', 'exec-and-forget sketchybar --trigger aerospace_monitor_change MONITOR=7']
-cmd-alt-ctrl-8 = ['focus-monitor 8', 'exec-and-forget sketchybar --trigger aerospace_monitor_change MONITOR=8']
-cmd-alt-ctrl-9 = ['focus-monitor 9', 'exec-and-forget sketchybar --trigger aerospace_monitor_change MONITOR=9']
-cmd-alt-ctrl-a = ['workspace A', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=A']
-cmd-alt-ctrl-b = ['workspace B', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=B']
-cmd-alt-ctrl-c = ['workspace C', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=C']
-cmd-alt-ctrl-d = ['workspace D', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=D']
-cmd-alt-ctrl-e = ['workspace E', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=E']
-cmd-alt-ctrl-f = ['workspace F', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=F']
-cmd-alt-ctrl-g = ['workspace G', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=G']
-cmd-alt-ctrl-i = ['workspace I', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=I']
-cmd-alt-ctrl-m = ['workspace M', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=M']
-cmd-alt-ctrl-n = ['workspace N', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=N']
-cmd-alt-ctrl-o = ['workspace O', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=O']
-cmd-alt-ctrl-p = ['workspace P', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=P']
-cmd-alt-ctrl-q = ['workspace Q', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=Q']
-cmd-alt-ctrl-r = ['workspace R', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=R']
-cmd-alt-ctrl-s = ['workspace S', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=S']
-cmd-alt-ctrl-t = ['workspace T', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=T']
-cmd-alt-ctrl-u = ['workspace U', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=U']
-cmd-alt-ctrl-v = ['workspace V', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=V']
-cmd-alt-ctrl-w = ['workspace W', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=W']
-cmd-alt-ctrl-x = ['workspace X', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=X']
-cmd-alt-ctrl-y = ['workspace Y', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=Y']
-cmd-alt-ctrl-z = ['workspace Z', 'exec-and-forget sketchybar --trigger aerospace_workspace_change WORKSPACE=Z']
+cmd-alt-ctrl-1 = 'focus-monitor 1'
+cmd-alt-ctrl-2 = 'focus-monitor 2'
+cmd-alt-ctrl-3 = 'focus-monitor 3'
+cmd-alt-ctrl-4 = 'focus-monitor 4'
+cmd-alt-ctrl-5 = 'focus-monitor 5'
+cmd-alt-ctrl-6 = 'focus-monitor 6'
+cmd-alt-ctrl-7 = 'focus-monitor 7'
+cmd-alt-ctrl-8 = 'focus-monitor 8'
+cmd-alt-ctrl-9 = 'focus-monitor 9'
+cmd-alt-ctrl-a = 'workspace A'
+cmd-alt-ctrl-b = 'workspace B'
+cmd-alt-ctrl-c = 'workspace C'
+cmd-alt-ctrl-d = 'workspace D'
+cmd-alt-ctrl-e = 'workspace E'
+cmd-alt-ctrl-f = 'workspace F'
+cmd-alt-ctrl-g = 'workspace G'
+cmd-alt-ctrl-i = 'workspace I'
+cmd-alt-ctrl-m = 'workspace M'
+cmd-alt-ctrl-n = 'workspace N'
+cmd-alt-ctrl-o = 'workspace O'
+cmd-alt-ctrl-p = 'workspace P'
+cmd-alt-ctrl-q = 'workspace Q'
+cmd-alt-ctrl-r = 'workspace R'
+cmd-alt-ctrl-s = 'workspace S'
+cmd-alt-ctrl-t = 'workspace T'
+cmd-alt-ctrl-u = 'workspace U'
+cmd-alt-ctrl-v = 'workspace V'
+cmd-alt-ctrl-w = 'workspace W'
+cmd-alt-ctrl-x = 'workspace X'
+cmd-alt-ctrl-y = 'workspace Y'
+cmd-alt-ctrl-z = 'workspace Z'
 
 cmd-alt-ctrl-shift-1 = [ 'move-workspace-to-monitor 1', 'focus-monitor 1', 'exec-and-forget sketchybar --trigger aerospace_monitor_move MONITOR=1' ]
 cmd-alt-ctrl-shift-2 = [ 'move-workspace-to-monitor 2', 'focus-monitor 2', 'exec-and-forget sketchybar --trigger aerospace_monitor_move MONITOR=2' ]

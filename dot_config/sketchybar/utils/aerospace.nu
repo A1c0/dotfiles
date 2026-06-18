@@ -1,4 +1,4 @@
-export def table [] {
+export def table-without-cache [] {
     let visible_workspaces = aerospace list-workspaces --monitor all --visible | lines
     let focused_workspace = aerospace list-workspaces --focused
     let monitor_table = aerospace list-monitors --json
@@ -45,28 +45,34 @@ export def table [] {
     } | default [] apps;
 }
 
+export def table [] {
+    table-without-cache
+}
+
 export module cache {
-    const CACHE_PATH = path self ./aerospace.db
+    const DB_PATH = path self ./aerospace.db
     const INIT_SQL = path self ./init_aerospace_db.sql
 
     export def reset [] {
-        if ($CACHE_PATH | path exists) { rm $CACHE_PATH }
-        open $INIT_SQL | sqlite3 $CACHE_PATH
+        if ($DB_PATH | path exists) { rm $DB_PATH }
 
-        let table = table
+        open $INIT_SQL | sqlite3 $DB_PATH
+
+        let table = table-without-cache
+        print $table
 
         # Display
         $table
         | select monitor display
         | rename id display_id
         | uniq
-        | into sqlite --table-name monitor aerospace.db
+        | into sqlite --table-name monitor $DB_PATH
 
         # Workspace
         $table
         | select monitor workspace visible
         | rename monitor_id id
-        | into sqlite --table-name workspace aerospace.db
+        | into sqlite --table-name workspace $DB_PATH
 
         # App
         $table
@@ -74,11 +80,34 @@ export module cache {
         | flatten apps --all
         | rename --column {id: pid}
         | reject title
-        | into sqlite --table-name app aerospace.db
+        | into sqlite --table-name app $DB_PATH
     }
 
     export def db [] {
-        open $CACHE_PATH
+        open $DB_PATH
+    }
+
+    export def table [] {
+        let query = "
+            SELECT
+                workspace.id                                AS workspace,
+                visible                                     AS visible,
+                group_concat((name || ',' || focused), ';') AS apps,
+                coalesce(max(focused), 0)                   AS focused,
+                display_id                                  AS display
+            FROM
+                \"workspace\"
+                LEFT JOIN \"app\" ON app.workspace = workspace.id
+                LEFT JOIN \"monitor\" ON monitor.id = workspace.monitor_id
+            GROUP BY
+                workspace.id,
+                workspace.visible,
+                monitor.display_id"
+
+        db
+        | query db $query
+        | update cells -c [visible focused] {into bool}
+        | update apps {if ($in | is-not-empty ) {$in | split row ';' | split column ',' | rename name focused | update focused {into bool}}}
     }
 }
 
