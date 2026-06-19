@@ -19,6 +19,7 @@ sketchybar --bar position=top height=35 blur_radius=0 color=0x00000000
                       label.padding_right=6)
 
 # Spaces
+sketchybar --add event aerospace_workspace_change
 sketchybar --add event aerospace_monitor_change
 sketchybar --add event aerospace_mode_change
 sketchybar --add event aerospace_monitor_move
@@ -90,6 +91,7 @@ let space_subcriber = 'space_subcriber'
 
 (sketchybar --add item $space_subcriber left
             --subscribe $space_subcriber front_app_switched
+            --subscribe $space_subcriber aerospace_workspace_change
             --subscribe $space_subcriber aerospace_monitor_move
             --subscribe $space_subcriber aerospace_workspace_move
             --subscribe $space_subcriber aerospace_monitor_change

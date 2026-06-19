@@ -34,7 +34,7 @@ def render_visible_workspace [item, table] {
 }
 
 def render_workspace [
-    --only_workspaces: list<string>
+    --only-workspaces: list<string>
     --cache # use cache
 ] {
     let res = timeit --output { if $cache { aerospace cache table } else {aerospace table }}
@@ -73,36 +73,57 @@ def render_workspace [
 
 
 def on-aerospace-workspace-change [focused:string, previous:string] {
-    # let focused = aerospace list-windows --focused --json | from json | first | select app-name window-id | rename name pid
-    # aerospace cache db | query db $""
-    # render_workspace --only_workspaces [$focused $previous] --cache
+    let focused_app_pid = aerospace list-windows --focused --json | from json | first | get window-id
+    aerospace cache db | query db $"UPDATE app SET focused = true WHERE pid = ($focused_app_pid)"
+    render_workspace --cache --only-workspaces [$focused, $previous]
 }
 
-def on-space-windows-change [info: string] {
-    # TODO comment savoir quand c'est un delete ou un create
-    print on-space-windows-change $info
-    aerospace cache reset
-    render_workspace
+def get-current-state [] {
+    [
+        {aerospace list-windows --focused --json | from json | first | rename name pid | reject window-title},
+        {aerospace list-workspaces --focused },
+        {aerospace list-windows --all --json | from json | rename name pid | reject window-title }
+    ]
+    | par-each {do $in}
+    | {current_workspace : $in.0, current_app: $in.1, all_apps: $in.2}
+}
+
+def on-space-windows-change [] {
+    print on-space-windows-change
+    let db = aerospace cache db
+    let state = get-current-state
+    let cache_apps = $db | query db 'select * from app'
+
+    let deleted = $cache_apps | where pid not-in ($state.all_apps.pid)
+    if ($deleted | is-not-empty) {
+        let item = $deleted | first
+        $db | query db "DELETE FROM app WHERE pid = ?" -p [$item.pid]
+        $db | query db "UPDATE app SET focused = TRUE WHERE pid = ?" -p [$state.current_app.pid]
+    } else {
+        let query = "INSERT INTO app (pid, workspace, name, focused) VALUES (?, ?, ?, TRUE)"
+        let params = [$state.current_app.pid $state.current_workspace $state.current_app.name]
+        $db | query db $query -p $params
+    }
+
+    render_workspace --cache
 }
 
 def on-front-app-switched [] {
-    let focused = aerospace list-windows --focused --json | from json | first | select app-name window-id | rename name pid
-    aerospace cache db | query db $"update app set focused = true where pid = ($focused.pid)"
-    print on-front-app-switched $focused
+    let focused_app_pid = aerospace list-windows --focused --json | from json | first | get window-id
+    aerospace cache db | query db "UPDATE app SET focused = true WHERE pid = ?" -p [ $focused_app_pid ]
     render_workspace --cache
 }
 
 def on-aerospace-monitor-move [monitor: int] {
-    print on-aerospace-monitor-move $monitor
-    aerospace cache reset
-    render_workspace
+    let workspace = aerospace list-workspaces --focused
+    print "UPDATE workspace SET monitor = ? WHERE id = ?" [ $monitor $workspace ]
+    aerospace cache db | query db "UPDATE workspace SET monitor = ? WHERE id = ?" -p [ $monitor $workspace ]
+    render_workspace --cache
 }
 
 def on-aerospace-workspace-move [workspace: string] {
-    let focused_pid = aerospace list-windows --focused --json | from json | first | get window-id
-    let query = $"update app set workspace = '($workspace)' where pid = ($focused_pid)"
-    print $query
-    aerospace cache db | query db $query
+    let focused_app_pid = aerospace list-windows --focused --json | from json | first | get window-id
+    aerospace cache db | query db "UPDATE app SET workspace = ? WHERE pid = ?" -p [$workspace $focused_app_pid]
 
     print on-aerospace-workspace-move $workspace
     render_workspace --cache
@@ -117,7 +138,7 @@ def main [] {
     let process_duration: duration = timeit {
         match $env.SENDER {
             'aerospace_workspace_change' => { on-aerospace-workspace-change $env.AEROSPACE_FOCUSED_WORKSPACE $env.AEROSPACE_PREV_WORKSPACE },
-            'space_windows_change' => { on-space-windows-change $env.INFO }
+            'space_windows_change' => { on-space-windows-change }
             'front_app_switched' => { on-front-app-switched }
             'aerospace_monitor_move' => {on-aerospace-monitor-move $env.MONITOR}
             'aerospace_workspace_move' => {on-aerospace-workspace-move $env.WORKSPACE}

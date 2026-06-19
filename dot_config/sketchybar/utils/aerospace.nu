@@ -59,19 +59,18 @@ export module cache {
         open $INIT_SQL | sqlite3 $DB_PATH
 
         let table = table-without-cache
-        print $table
 
         # Display
         $table
         | select monitor display
-        | rename id display_id
+        | rename id display
         | uniq
         | into sqlite --table-name monitor $DB_PATH
 
         # Workspace
         $table
         | select monitor workspace visible
-        | rename monitor_id id
+        | rename monitor id
         | into sqlite --table-name workspace $DB_PATH
 
         # App
@@ -94,20 +93,20 @@ export module cache {
                 visible                                     AS visible,
                 group_concat((name || ',' || focused), ';') AS apps,
                 coalesce(max(focused), 0)                   AS focused,
-                display_id                                  AS display
+                display                                     AS display
             FROM
                 \"workspace\"
                 LEFT JOIN \"app\" ON app.workspace = workspace.id
-                LEFT JOIN \"monitor\" ON monitor.id = workspace.monitor_id
+                LEFT JOIN \"monitor\" ON workspace.monitor = monitor.id
             GROUP BY
                 workspace.id,
                 workspace.visible,
-                monitor.display_id"
+                monitor.display"
 
         db
         | query db $query
         | update cells -c [visible focused] {into bool}
-        | update apps {if ($in | is-not-empty ) {$in | split row ';' | split column ',' | rename name focused | update focused {into bool}}}
+        | update apps {if ($in | is-not-empty ) {$in | split row ';' | split column ',' | rename name focused | update focused {into bool}} else {[]}}
     }
 }
 
