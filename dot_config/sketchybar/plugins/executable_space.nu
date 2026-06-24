@@ -80,8 +80,8 @@ def on-aerospace-workspace-change [focused:string, previous:string] {
 
 def get-current-state [] {
     [
-        {aerospace list-windows --focused --json | from json | first | rename name pid | reject window-title},
         {aerospace list-workspaces --focused },
+        { try { aerospace list-windows --focused --json | from json | first | rename name pid | reject window-title } catch {null} },
         {aerospace list-windows --all --json | from json | rename name pid | reject window-title }
     ]
     | par-each {do $in}
@@ -89,22 +89,23 @@ def get-current-state [] {
 }
 
 def on-space-windows-change [] {
-    print on-space-windows-change
-    let db = aerospace cache db
-    let state = get-current-state
-    let cache_apps = $db | query db 'select * from app'
+    # print on-space-windows-change
+    # sleep 10ms;
+    # let db = aerospace cache db
+    # let state = get-current-state
+    # let cache_apps = $db | query db 'select * from app'
 
-    let deleted = $cache_apps | where pid not-in ($state.all_apps.pid)
-    if ($deleted | is-not-empty) {
-        let item = $deleted | first
-        $db | query db "DELETE FROM app WHERE pid = ?" -p [$item.pid]
-        $db | query db "UPDATE app SET focused = TRUE WHERE pid = ?" -p [$state.current_app.pid]
-    } else {
-        let query = "INSERT INTO app (pid, workspace, name, focused) VALUES (?, ?, ?, TRUE)"
-        let params = [$state.current_app.pid $state.current_workspace $state.current_app.name]
-        $db | query db $query -p $params
-    }
-
+    # let deleted = $cache_apps | where pid not-in ($state.all_apps.pid)
+    # if ($deleted | is-not-empty) {
+    #     let item = $deleted | first
+    #     $db | query db "DELETE FROM app WHERE pid = ?" -p [$item.pid]
+    #     $db | query db "UPDATE app SET focused = TRUE WHERE pid = ?" -p [$state.current_app.pid]
+    # } else {
+    #     let query = "INSERT INTO app (pid, workspace, name, focused) VALUES (?, ?, ?, TRUE)"
+    #     let params = [$state.current_app.pid $state.current_workspace $state.current_app.name]
+    #     $db | query db $query -p $params
+    # }
+    aerospace cache reset;
     render_workspace --cache
 }
 
@@ -130,7 +131,7 @@ def on-aerospace-workspace-move [workspace: string] {
 }
 
 def on-forced [] {
-    aerospace cache reset
+    aerospace cache reinit
     render_workspace
 }
 

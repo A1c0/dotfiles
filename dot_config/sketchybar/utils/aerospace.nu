@@ -53,10 +53,18 @@ export module cache {
     const DB_PATH = path self ./aerospace.db
     const INIT_SQL = path self ./init_aerospace_db.sql
 
-    export def reset [] {
+    export def reinit [] {
         if ($DB_PATH | path exists) { rm $DB_PATH }
-
         open $INIT_SQL | sqlite3 $DB_PATH
+        reset
+    }
+
+    export def reset [] {
+        let db = open $DB_PATH
+
+        $db | query db "DELETE FROM app";
+        $db | query db "DELETE FROM workspace";
+        $db | query db "DELETE FROM monitor";
 
         let table = table-without-cache
 
@@ -80,6 +88,7 @@ export module cache {
         | rename --column {id: pid}
         | reject title
         | into sqlite --table-name app $DB_PATH
+
     }
 
     export def db [] {
