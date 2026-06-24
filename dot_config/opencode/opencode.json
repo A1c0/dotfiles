@@ -1,6 +1,13 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "autoupdate": true,
+  "provider": {
+    "fireworks-ai": {
+      "options": {
+        "baseURL": "http://localhost:8787/v1"
+      }
+    }
+  },
   "agent": {
     "plan": {
       "model": "fireworks-ai/accounts/fireworks/models/glm-5p2"
