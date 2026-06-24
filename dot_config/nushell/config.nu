@@ -71,3 +71,8 @@ $env.config.hooks.env_change.PWD = $env.config.hooks.env_change | get PWD --opti
   condition: {|_, after| $after | path join 'toolkit' | path exists }
   code: "overlay use --prefix toolkit as tk --reload"
 }
+
+
+# additionnal local.nu
+const local_config = ($nu.default-config-dir | path join "local.nu")
+source $local_config
