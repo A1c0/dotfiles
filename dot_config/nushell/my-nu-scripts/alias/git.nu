@@ -3,7 +3,7 @@ def git-previous-branch [] {git rev-parse --symbolic-full-name @{-1} | str trim}
 
 alias gst = git status
 alias grhh = git reset --hard
-alias gfa = git fetch --all
+alias gfa = git fetch --all --prune
 alias gaa = git add --all
 alias gco = git checkout
 
