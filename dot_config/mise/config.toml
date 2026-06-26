@@ -29,4 +29,5 @@ jj = "0.42.0"
 auto_install = true
 
 [settings.github]
-oauth_client_id = "Iv23li5z2d66nirhh9LV"
+oauth_client_id = "Iv23li5z2d66nirhh9LV" # gitleaks:allow
+oauth_export_env = "" # disable automatic export
