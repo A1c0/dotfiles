@@ -1,0 +1,6 @@
+theme = "catppuccin-mocha"
+diff_view = "side-by-side"   # or "unified"
+ignore_whitespace = true     # ignore all whitespace in local VCS diffs
+mouse = true
+leader = ";"                    # configurable prefix for leader shortcuts
+review_watch_interval_ms = 1000 # set to 0 to disable persisted-review polling
