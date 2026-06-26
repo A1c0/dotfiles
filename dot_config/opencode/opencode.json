@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "default_agent": "plan",
   "autoupdate": true,
   "provider": {
     "fireworks-ai": {
@@ -10,9 +11,11 @@
   },
   "agent": {
     "plan": {
+      "color": "primary",
       "model": "fireworks-ai/accounts/fireworks/models/glm-5p2"
     },
     "build": {
+      "color": "secondary",
       "model": "fireworks-ai/accounts/fireworks/models/deepseek-v4-flash"
     }
   }
