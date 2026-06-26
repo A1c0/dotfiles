@@ -17,16 +17,16 @@ gh = "2.95.0"
 carapace = "1.7.1"
 "aqua:nushell/nushell" = "0.113.1"
 "cargo:tlrc" = "1.13.1"
-"aqua:fish-shell/fish-shell" = "4.7.1"
+"aqua:fish-shell/fish-shell" = "4.8.0"
 "github:asciimoo/hister" = "0.15.0"
 usage = "3.5.3"
 fzf = "0.73.1"
 "github:agavra/tuicr" = "0.18.0"
-fnox = "latest"
+fnox = "1.28.0"
 jj = "0.42.0"
 
 [settings]
 auto_install = true
 
 [settings.github]
-credential_command = "$(mise which gh) auth token"
+oauth_client_id = "Iv23li5z2d66nirhh9LV"
