@@ -23,6 +23,7 @@ usage = "3.5.3"
 fzf = "0.73.1"
 "github:agavra/tuicr" = "0.18.0"
 fnox = "latest"
+jj = "0.42.0"
 
 [settings]
 auto_install = true
