@@ -1,3 +1,109 @@
+format = """
+$username\
+$hostname\
+$localip\
+$shlvl\
+$singularity\
+$kubernetes\
+$nats\
+$directory\
+$vcsh\
+$fossil_branch\
+$fossil_metrics\
+${custom.git_branch}\
+${custom.git_commit}\
+$git_state\
+${custom.git_metrics}\
+${custom.git_status}\
+$hg_branch\
+$hg_state\
+${custom.jj}\
+${custom.jjstate}\
+$pijul_channel\
+$docker_context\
+$package\
+$bun\
+$c\
+$cmake\
+$cobol\
+$cpp\
+$daml\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$fennel\
+$fortran\
+$gleam\
+$golang\
+$gradle\
+$haskell\
+$haxe\
+$helm\
+$java\
+$julia\
+$kotlin\
+$lua\
+$maven\
+$mojo\
+$nim\
+$nodejs\
+$ocaml\
+$odin\
+$opa\
+$perl\
+$php\
+$pulumi\
+$purescript\
+$python\
+$quarto\
+$raku\
+$rlang\
+$red\
+$ruby\
+$rust\
+$scala\
+$solidity\
+$swift\
+$terraform\
+$typst\
+$vlang\
+$vagrant\
+$xmake\
+$zig\
+$buf\
+$guix_shell\
+$nix_shell\
+$conda\
+$pixi\
+$meson\
+$spack\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$azure\
+$direnv\
+$env_var\
+$mise\
+$crystal\
+$custom\
+$sudo\
+$cmd_duration\
+$line_break\
+$jobs\
+$battery\
+$time\
+$status\
+$container\
+$netns\
+$os\
+$shell\
+$character
+"""
+
 [aws]
 symbol = "  "
 
@@ -34,8 +140,8 @@ symbol = " "
 [fossil_branch]
 symbol = " "
 
-[git_branch]
-symbol = " "
+# [git_branch]
+# symbol = " "
 
 [golang]
 symbol = " "
@@ -164,15 +270,92 @@ symbol = " "
 [zig]
 symbol = " "
 
+[git_status]
+disabled = true
+
+[custom.git_status]
+when = "jj --ignore-working-copy root | complete | if ($in.exit_code == 0) {error make}" # Slow without `require_repo = true`
+require_repo = true # Avoids `when` eval overhead in plain dirs
+command = "starship module git_status"
+style = "" # This disables the default "(bold green)" style
+description = "Only show git_status if we're not in a jj repo"
+
+[git_commit]
+disabled = true
+
+[custom.git_commit]
+when = "jj --ignore-working-copy root | complete | if ($in.exit_code == 0) {error make}"
+require_repo = true
+command = "starship module git_commit"
+style = ""
+description = "Only show git_commit if we're not in a jj repo"
+
+[git_metrics]
+disabled = true
+
+[custom.git_metrics]
+when = "jj --ignore-working-copy root | complete | if ($in.exit_code == 0) {error make}"
+require_repo = true
+command = "starship module git_metrics"
+description = "Only show git_metrics if we're not in a jj repo"
+style = ""
+
+[git_branch]
+symbol = " "
+disabled = true
+
+[custom.git_branch]
+when = "jj --ignore-working-copy root | complete | if ($in.exit_code == 0) {error make}"
+require_repo = true
+command = "starship module git_branch"
+description = "Only show git_branch if we're not in a jj repo"
+style = ""
+
 [jobs]
 symbol_threshold = 2
 number_threshold = 2
 format = '[$symbol$number]($style)'
+
+# custom module for jj status
+[custom.jj]
+description = "The current jj status"
+when = "jj --ignore-working-copy root"
+command = '''
+jj log --revisions @ --no-graph --ignore-working-copy --color always --limit 1 --template '
+  separate(" ",
+    change_id.shortest(4),
+    bookmarks,
+    "|",
+    concat(
+      if(conflict, "💥"),
+      if(divergent, "🚧"),
+      if(hidden, "👻"),
+      if(immutable, "🔒"),
+    ),
+    raw_escape_sequence("\x1b[1;32m") ++ if(empty, "(empty)"),
+    raw_escape_sequence("\x1b[1;32m") ++ coalesce(
+      truncate_end(29, description.first_line(), "…"),
+      "(no description set)",
+    ) ++ raw_escape_sequence("\x1b[0m"),
+  )
+'
+'''
+format = "on [$output]($style) "
+
+# [custom.jjstate]
+# when = "jj --ignore-working-copy root"
+# command = '''
+# jj log -r@ -n1 --ignore-working-copy --no-graph -T "" --stat
+# | lines
+# | last
+# | parse -r '(?<changed>\d+) files? changed, (?<insertions>\d+) insertions\(\+\), (?<deletions>\d+) deletions\(-\)'
+# | first
+# | $"(ansi grey)[(ansi blue)($in.changed)m (ansi green)($in.insertions)+(ansi red) ($in.deletions)-(ansi grey)](ansi reset)"
+# '''
 
 [custom.nu_overlay]
 command = "$env.NU_ACTIVE_OVERLAYS"
 when = "$env.NU_ACTIVE_OVERLAYS | is-not-empty | if ($in) { exit 0 } else { exit 1 }"
 format = "with [$output]($style) "
 shell = ["nu", "-c"]
-
 
